@@ -8,6 +8,9 @@ else
     exit 1    
 fi
 
+apt update && apt upgrade -y && apt autoremove -y
+apt install iputils-ping -y
+
 read -p "请输入域名(eg:www.google.com):" domain
 domain_ip=`ping ${domain} -c 1 | sed '1{s/[^(]*(//;s/).*//;q}'`
 local_ip=`curl -4 ip.sb`
@@ -29,6 +32,8 @@ else
     esac
 fi
 
+apt install uuid-runtime -y
+
 read -p "请输入订阅源（default:rss）:" rss
 [[ -z ${rss} ]] && rss="rss"
 read -p "请输入UUID（default:random）:" UUID
@@ -36,8 +41,7 @@ read -p "请输入UUID（default:random）:" UUID
 read -p "请输入伪装路径（default:random）:" camouflage
 [[ -z ${camouflage} ]] && camouflage="cat /dev/urandom | head -n 10 | md5sum | head -c 8"
 
-apt update && apt upgrade -y && apt autoremove -y
-apt install iputils-ping uuid-runtime haproxy cron socat tzdata -y
+apt install haproxy cron socat tzdata -y
 timedatectl set-timezone Asia/Shanghai
 bash <(curl -L -s https://install.direct/go.sh)
 curl  https://get.acme.sh | sh
