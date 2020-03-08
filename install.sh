@@ -170,7 +170,7 @@ backend acme
 EOF
 
 echo -n "vmess://$(cat /etc/v2ray/vmess.json | base64 -w 0)" > /etc/v2ray/vmess.url
-echo -n "${vmess_link}"| base64 >> /etc/haproxy/errors/${rss}.http
+echo -n "$(cat /etc/v2ray/vmess.url | base64)" >> /etc/haproxy/errors/${rss}.http
 curl https://ssl-config.mozilla.org/ffdhe2048.txt > /etc/haproxy/dhparam.pem
 
 systemctl start v2ray
